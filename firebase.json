@@ -5,9 +5,17 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "/test",
+        "function": "helloFunction"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "predeploy": ["npm run build"]
+  },
+  "functions": {
+    "source": "functions"
   }
 }
