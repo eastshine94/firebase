@@ -1,21 +1,26 @@
 const functions = require('firebase-functions');
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const homeRoute = require('./routes/homeRoute');
 
-exports.helloFunction = functions.https.onRequest((request, response) => {
-  functions.logger.info('Hello World!');
-  const htmlString = `
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8" />
-      <title>Change Title</title>
-    </head>
-    <body>
-      <div>test</div>
-      <div>test</div>
-      <div>test</div>
-    </body>
-  </html>
-  `;
-  response.set('Content-Type', 'text/html');
-  response.send(Buffer.from(htmlString));
+const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use('/', homeRoute);
+app.get('*', (req, res) => {
+  try {
+    // build 시, build 결과물에 있는 index.html을 functions에 복사해옴
+    fs.readFile('index.html', 'utf8', (err, htmlString) => {
+      res.set('Content-Type', 'text/html');
+      res.send(Buffer.from(htmlString));
+    });
+  } catch (err) {
+    functions.logger.error('error: ', err);
+    res.end();
+  }
 });
+
+exports.helloFunction = functions.https.onRequest(app);
