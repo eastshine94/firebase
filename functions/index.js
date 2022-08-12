@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
+const { isBot, goToCSR } = require('./lib/helper');
 // const homeRoute = require('./routes/homeRoute');
 const homeEjsRoute = require('./routes/homeEjsRoute');
 
@@ -13,16 +13,13 @@ app.set('views', path.join(__dirname, 'views'));
 // app.use('/', homeRoute);
 app.use('/', homeEjsRoute);
 app.get('*', (req, res) => {
-  try {
-    // build 시, build 결과물에 있는 index.html을 functions에 복사해옴
-    fs.readFile('index.html', 'utf8', (err, htmlString) => {
-      res.set('Content-Type', 'text/html');
-      res.send(Buffer.from(htmlString));
-    });
-  } catch (err) {
-    functions.logger.error('error: ', err);
-    res.end();
-  }
+  return goToCSR(req, res);
 });
 
-exports.helloFunction = functions.https.onRequest(app);
+const exportFunc = functions.https.onRequest((req, res) => {
+  return isBot(req) ? app(req, res) : goToCSR(req, res);
+});
+
+module.exports = {
+  helloFunction: exportFunc
+};
