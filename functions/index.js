@@ -4,6 +4,7 @@ const path = require('path');
 const { isBot, goToCSR } = require('./lib/helper');
 // const homeRoute = require('./routes/homeRoute');
 const homeEjsRoute = require('./routes/homeEjsRoute');
+const testRoute = require('./routes/testRoute');
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // app.use('/', homeRoute);
+app.use('/test', testRoute);
 app.use('/', homeEjsRoute);
 app.get('*', (req, res) => {
   return goToCSR(req, res);

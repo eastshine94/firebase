@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/logo192.png" />
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="theme-color" content="#000000" />
+      <meta name="description" content="Test Dev Description" />
+      <meta name="url" content="url" />
+      <meta property="og:title" content="Test Dev Title <%= name %>" />
+      <meta property="og:type" content="Test Dev Type" />
+      <meta property="og:url" content="Test Dev URL" />
+      <meta property="og:image" content="https://media.vlpt.us/images/leeyoungwoozz/post/c362e17d-7a41-40ea-89aa-371e48b84e54/1*srSO6S7Q0N-Y9iOwdVah0A.jpeg" />
+      <meta property="og:site_name" content="Test Dev Site name <%= name %>" />
+      <meta property="og:description" content="Test Dev Description <%= name %>" />
+      <title>Test Dev Page 입니다~</title>  
+  </head>
+  <body>
+      <h1>Test Home</h1>
+      <div>TEST 로봇 맞습니까!!</div>
+      <div>name : <%= name %></div>
+      <br/>
+      <h3> =========== for문 Link test =========== </h3>
+      <%for(let i=1; i<=3; i++) { %>
+        <div><a href="/test/<%= i %>"><%= i %></a></div>
+      <% } %>
+
+      <br/><br/>
+      <h3> =========== Array.map test =========== </h3>
+      <ul>
+        <% Object.entries(main).map(([key, val])=>{ %>
+          <li><%= key %>: <%= val %></li>
+        <% }) %>
+      </ul>
+
+      <h3> =========== Array.forEach test =========== </h3>
+      <ul>
+        <% Object.entries(main).forEach(([key, val])=>{ %>
+          <li><%= key %>: <%= val %></li>
+        <% }) %>
+      </ul>   
+  </body>
+</html>
